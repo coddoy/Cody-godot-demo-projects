@@ -1,7 +1,7 @@
-[gd_scene load_steps=28 format=3 uid="uid://cc4idhykjp5f5"]
+[gd_scene load_steps=30 format=3 uid="uid://cc4idhykjp5f5"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1"]
-[ext_resource type="Script" path="res://player/follow_camera.gd" id="2"]
+[ext_resource type="Script" path="res://player/RotateCamera.gd" id="2_v2jm5"]
 [ext_resource type="PackedScene" uid="uid://yd1e7ai2k5cr" path="res://player/player.glb" id="3_uccbe"]
 [ext_resource type="Texture2D" uid="uid://kujhqacj3v72" path="res://player/controls/osb_up.webp" id="4_lmv6w"]
 [ext_resource type="Texture2D" uid="uid://68sox6egj4j7" path="res://player/controls/osb_down.webp" id="5_4oxdy"]
@@ -98,6 +98,10 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0.01)
 
+[sub_resource type="BoxMesh" id="BoxMesh_rcwvc"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_fs0a7"]
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1")
 
@@ -106,16 +110,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
 shape = SubResource("1")
 
 [node name="Target" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95244, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Target"]
-transform = Transform3D(1, 0, 0, 0, 0.871263, 0.490817, 0, -0.490817, 0.871263, 0, 2.59805, 1.25672)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 current = true
 fov = 74.0
 near = 0.1
-script = ExtResource("2")
+script = ExtResource("2_v2jm5")
 
 [node name="Player" parent="." instance=ExtResource("3_uccbe")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Player/Skeleton" index="0"]
 bones/5/rotation = Quaternion(0.501129, -0.498869, -0.501128, 0.498869)
@@ -129,6 +134,7 @@ bones/16/rotation = Quaternion(0.000357169, 0.998602, 0.050483, 0.0156871)
 bones/17/rotation = Quaternion(0.720784, 0.0117189, 0.0419352, 0.691791)
 
 [node name="Robot" parent="Player/Skeleton/Skeleton3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 layers = 2
 
 [node name="Bullet" type="Marker3D" parent="Player/Skeleton" index="1"]
@@ -187,7 +193,6 @@ parameters/speed/blend_amount = 0
 parameters/state/blend_amount = 0.0
 
 [node name="Forward" type="TouchScreenButton" parent="."]
-visible = false
 position = Vector2(72, 301)
 texture_normal = ExtResource("4_lmv6w")
 texture_pressed = ExtResource("4_lmv6w")
@@ -236,5 +241,23 @@ albedo_mix = 0.8
 upper_fade = 3.99999
 lower_fade = 1.0
 cull_mask = 1048573
+
+[node name="Arrow" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arrow"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 1, 0, 0, 0)
+sorting_use_aabb_center = false
+transparency = 0.26
+cast_shadow = 0
+mesh = SubResource("BoxMesh_rcwvc")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Arrow"]
+transform = Transform3D(0.3, 0, 0, 0, -2.62268e-08, -0.3, 0, 0.6, -1.31134e-08, 0, 0, 0.603663)
+mesh = SubResource("PrismMesh_fs0a7")
+skeleton = NodePath("../MeshInstance3D")
+
+[connection signal="cameraYawChanged" from="Target/Camera3D" to="." method="_on_camera_3d_camera_yaw_changed"]
 
 [editable path="Player"]

@@ -60,31 +60,22 @@ func _physics_process(delta: float) -> void:
 	var horizontal_speed := horizontal_velocity.length()
 
 	# Player input.
-	var cam_basis := _camera.get_global_transform().basis
+	var cam_basis := get_global_transform().basis
 	var movement_vec2 := Input.get_vector(&"move_left", &"move_right", &"move_forward", &"move_back")
-	var movement_direction := cam_basis * Vector3(movement_vec2.x, 0, movement_vec2.y)
-	movement_direction.y = 0
-	movement_direction = movement_direction.normalized()
+	var movement_direction_local := Vector3(movement_vec2.x, 0, movement_vec2.y)
+	var movement_direction_global := cam_basis * movement_direction_local
+	movement_direction_global.y = 0
+	movement_direction_global = movement_direction_global.normalized()
 
 	var jump_attempt := Input.is_action_pressed(&"jump")
 	var shoot_attempt := Input.is_action_pressed(&"shoot")
 
 	if is_on_floor():
 		var sharp_turn := horizontal_speed > 0.1 and \
-				acos(movement_direction.dot(horizontal_direction)) > SHARP_TURN_THRESHOLD
+				acos(movement_direction_global.dot(horizontal_direction)) > SHARP_TURN_THRESHOLD
 
-		if movement_direction.length() > 0.1 and not sharp_turn:
-			if horizontal_speed > 0.001:
-				horizontal_direction = adjust_facing(
-					horizontal_direction,
-					movement_direction,
-					delta,
-					1.0 / horizontal_speed * TURN_SPEED,
-					Vector3.UP
-				)
-			else:
-				horizontal_direction = movement_direction
-
+		if movement_direction_global.length() > 0.1 and not sharp_turn:
+			horizontal_direction = movement_direction_global
 			if horizontal_speed < MAX_SPEED:
 				horizontal_speed += ACCEL * delta
 		else:
@@ -95,17 +86,31 @@ func _physics_process(delta: float) -> void:
 		horizontal_velocity = horizontal_direction * horizontal_speed
 
 		var mesh_xform := ($Player/Skeleton as Node3D).get_transform()
+		
+		##Get new Mesh direction. Raw
+		#var zDir := -movement_direction_local.normalized()
+		#if zDir.length() == 0:
+			#zDir = mesh_xform.basis[2].normalized()
+		#var xDir := -zDir.cross(Vector3.UP).normalized()
+		#var m3 := Basis(
+			#xDir,
+			#Vector3.UP,
+			#zDir
+		#).scaled(CHAR_SCALE)
+		
+		##Get new Mesh direction. Demo smoothing that is hard to read
 		var facing_mesh := -mesh_xform.basis[0].normalized()
 		facing_mesh = (facing_mesh - Vector3.UP * facing_mesh.dot(Vector3.UP)).normalized()
-
 		if horizontal_speed > 0:
 			facing_mesh = adjust_facing(
 				facing_mesh,
-				movement_direction,
+				-movement_direction_local.cross(Vector3.UP).normalized(),
 				delta,
 				1.0 / horizontal_speed * TURN_SPEED,
 				Vector3.UP
 			)
+		var xDir := -facing_mesh.normalized()
+		var zDir := -xDir.cross(Vector3.UP).normalized()
 		var m3 := Basis(
 			-facing_mesh,
 			Vector3.UP,
@@ -122,8 +127,8 @@ func _physics_process(delta: float) -> void:
 	else:
 		anim = _Anim.AIR
 
-		if movement_direction.length() > 0.1:
-			horizontal_velocity += movement_direction * (ACCEL * AIR_ACCEL_FACTOR * delta)
+		if movement_direction_global.length() > 0.1:
+			horizontal_velocity += movement_direction_global * (ACCEL * AIR_ACCEL_FACTOR * delta)
 			if horizontal_velocity.length() > MAX_SPEED:
 				horizontal_velocity = horizontal_velocity.normalized() * MAX_SPEED
 		elif AIR_IDLE_DEACCEL:
@@ -200,3 +205,7 @@ func adjust_facing(facing: Vector3, target: Vector3, step: float, adjust_rate: f
 	ang = (ang - a) * s
 
 	return (normal * cos(ang) + t * sin(ang)) * facing.length()
+
+func _on_camera_3d_camera_yaw_changed(deltaAngle):
+	rotate_y(deg_to_rad(deltaAngle))
+	pass # Replace with function body.
