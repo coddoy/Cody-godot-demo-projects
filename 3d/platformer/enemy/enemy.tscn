@@ -493,7 +493,7 @@ shape = SubResource("12")
 
 [node name="SoundWalkLoop" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2")
-volume_db = -36.521
+volume_db = -13.664
 autoplay = true
 max_distance = 30.0
 doppler_tracking = 1

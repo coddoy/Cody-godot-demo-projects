@@ -113,11 +113,13 @@ shape = SubResource("1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Target"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.94033)
 current = true
 fov = 74.0
 near = 0.1
 script = ExtResource("2_v2jm5")
+
+[node name="Bullet" type="Marker3D" parent="Target"]
+transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, 0.013, 0, -1)
 
 [node name="Player" parent="." instance=ExtResource("3_uccbe")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -136,10 +138,7 @@ bones/17/rotation = Quaternion(0.720784, 0.0117189, 0.0419352, 0.691791)
 [node name="Robot" parent="Player/Skeleton/Skeleton3D" index="0"]
 layers = 2
 
-[node name="Bullet" type="Marker3D" parent="Player/Skeleton" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.94071, 3.6408, 3.3802)
-
-[node name="CoinCount" type="Label3D" parent="Player/Skeleton" index="2"]
+[node name="CoinCount" type="Label3D" parent="Player/Skeleton" index="1"]
 unique_name_in_owner = true
 transform = Transform3D(-3.33333, 0, -2.91409e-07, 0, 3.33333, 0, 2.91409e-07, 0, -3.33333, 0, 7.51037, 0.531589)
 double_sided = false
@@ -242,7 +241,8 @@ lower_fade = 1.0
 cull_mask = 1048573
 
 [node name="Arrow" type="Node3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, -1)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.420993, -1)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Arrow"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 1, 0, 0, 0)

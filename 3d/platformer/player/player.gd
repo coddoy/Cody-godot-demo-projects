@@ -159,10 +159,10 @@ func _physics_process(delta: float) -> void:
 	if shoot_attempt and not prev_shoot:
 		shoot_blend = SHOOT_TIME
 		var bullet := preload("res://player/bullet/bullet.tscn").instantiate() as Bullet
-		bullet.set_transform($Player/Skeleton/Bullet.get_global_transform().orthonormalized())
+		bullet.set_transform($Target/Bullet.get_global_transform().orthonormalized())
 		get_parent().add_child(bullet)
 		bullet.set_linear_velocity(
-			$Player/Skeleton/Bullet.get_global_transform().basis[2].normalized() * BULLET_SPEED
+			-$Target/Camera3D.get_global_transform().basis[2].normalized() * BULLET_SPEED
 		)
 		bullet.add_collision_exception_with(self)
 		$SoundShoot.play()

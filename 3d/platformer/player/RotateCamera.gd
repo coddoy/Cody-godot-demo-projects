@@ -4,6 +4,9 @@ extends Camera3D
 @export var min_zoom := 0
 @export var zoom_speed := 0.3
 
+@export var max_angle := 80
+@export var min_angle := -80
+
 @export var distance := 0.5
 @export var invertY := true
 
@@ -33,7 +36,7 @@ func _update_mouselook():
 		_mouse_position = Vector2(0, 0)
 		
 		# Prevents looking up/down too far
-		pitch = clamp(pitch, -80 - _total_pitch, -10 - _total_pitch)
+		pitch = clamp(pitch, min_angle - _total_pitch, max_angle - _total_pitch)
 		_total_pitch += pitch
 		var deltaAngle = -yaw
 		cameraYawChanged.emit(deltaAngle)
