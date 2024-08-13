@@ -113,7 +113,7 @@ shape = SubResource("1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Target"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.94033)
 current = true
 fov = 74.0
 near = 0.1
@@ -134,7 +134,6 @@ bones/16/rotation = Quaternion(0.000357169, 0.998602, 0.050483, 0.0156871)
 bones/17/rotation = Quaternion(0.720784, 0.0117189, 0.0419352, 0.691791)
 
 [node name="Robot" parent="Player/Skeleton/Skeleton3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 layers = 2
 
 [node name="Bullet" type="Marker3D" parent="Player/Skeleton" index="1"]

@@ -1,15 +1,11 @@
 extends Camera3D
 #
-#const MAX_HEIGHT = 2.0
-#const MIN_HEIGHT = 0.0
-#
-#var collision_exception: Array[RID] = []
-#
+@export var max_zoom := 10
+@export var min_zoom := 0
+@export var zoom_speed := 0.3
+
 @export var distance := 0.5
 @export var invertY := true
-#@export var angle_v_adjust := 0.0
-#@export var autoturn_ray_aperture := 25.0
-#@export var autoturn_speed := 50.0
 
 @export_range(0.0, 1.0) var sensitivity: float = 0.25
 
@@ -55,6 +51,12 @@ func _input(event):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			get_viewport().set_input_as_handled()
+	if event.is_action_pressed("zoom in"):
+		position.z-=zoom_speed
+		position.z = max(min_zoom,position.z)
+	if event.is_action_pressed("zoom out"):
+		position.z+=zoom_speed
+		position.z = min(max_zoom,position.z)
 	pass
 func UpdatePosition() -> void:
 	var target := (get_parent() as Node3D).position
