@@ -1,0 +1,79 @@
+[gd_scene load_steps=7 format=3 uid="uid://cv2sna6fxs8nv"]
+
+[ext_resource type="Script" path="res://player/AbilityUI.gd" id="1_sscgt"]
+[ext_resource type="StyleBox" uid="uid://d3dbdgn2u3ggw" path="res://player/AbilityUIBox.tres" id="2_ffywd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_os252"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jlayf"]
+bg_color = Color(0.443137, 0.619608, 0.254902, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nthc4"]
+bg_color = Color(0.117647, 0.117647, 0.117647, 0.854902)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jydt7"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.930633, 0.748896, 0.0994341, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="PanelContainer" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxEmpty_os252")
+script = ExtResource("1_sscgt")
+
+[node name="InnerBox" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_jlayf")
+
+[node name="TextureRect" type="TextureRect" parent="InnerBox"]
+layout_mode = 2
+expand_mode = 1
+
+[node name="Label" type="Label" parent="InnerBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "1"
+
+[node name="Cooldown" type="ProgressBar" parent="InnerBox"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/fill = SubResource("StyleBoxFlat_nthc4")
+fill_mode = 1
+show_percentage = false
+
+[node name="Border" type="Control" parent="."]
+layout_mode = 2
+
+[node name="Default" type="Panel" parent="Border"]
+layout_mode = 2
+offset_right = 64.0
+offset_bottom = 64.0
+theme_override_styles/panel = ExtResource("2_ffywd")
+
+[node name="Active" type="Panel" parent="Border"]
+visible = false
+layout_mode = 2
+offset_right = 64.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jydt7")
+
+[connection signal="abilityQueued" from="." to="." method="_on_ability_queued"]

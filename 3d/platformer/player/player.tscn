@@ -1,10 +1,11 @@
-[gd_scene load_steps=33 format=3 uid="uid://cc4idhykjp5f5"]
+[gd_scene load_steps=32 format=3 uid="uid://cc4idhykjp5f5"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1"]
 [ext_resource type="Script" path="res://player/RotateCamera.gd" id="2_v2jm5"]
 [ext_resource type="PackedScene" uid="uid://yd1e7ai2k5cr" path="res://player/player.glb" id="3_uccbe"]
 [ext_resource type="Texture2D" uid="uid://by0pdf7d56ssr" path="res://player/bullet/Engineer_15.png" id="6_flss2"]
-[ext_resource type="Script" path="res://player/AbilityUI.gd" id="6_svq64"]
+[ext_resource type="Script" path="res://player/AbilityManager.gd" id="6_kclme"]
+[ext_resource type="PackedScene" uid="uid://cv2sna6fxs8nv" path="res://AbilityButtonUI.tscn" id="6_p1n53"]
 [ext_resource type="AudioStream" uid="uid://cdx3i7hr2acow" path="res://player/sound_shoot.wav" id="7"]
 [ext_resource type="Texture2D" uid="uid://dsvmqiwba5gf8" path="res://player/bullet/Engineer_16.png" id="7_o05ew"]
 [ext_resource type="AudioStream" uid="uid://bplqk77bffdxr" path="res://player/sound_jump.wav" id="8"]
@@ -102,21 +103,6 @@ fill_to = Vector2(0.5, 0.01)
 [sub_resource type="BoxMesh" id="BoxMesh_rcwvc"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_fs0a7"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i0s87"]
-bg_color = Color(0.444593, 0.620099, 0.254582, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nthc4"]
-bg_color = Color(0.117647, 0.117647, 0.117647, 0.854902)
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1")
@@ -238,125 +224,39 @@ transform = Transform3D(0.3, 0, 0, 0, -2.62268e-08, -0.3, 0, 0.6, -1.31134e-08, 
 mesh = SubResource("PrismMesh_fs0a7")
 skeleton = NodePath("../MeshInstance3D")
 
-[node name="Ability UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Ability UI"]
+[node name="Ability UI" type="HBoxContainer" parent="UI"]
 offset_top = 584.0
 offset_right = 1152.0
 offset_bottom = 648.0
 grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
+script = ExtResource("6_kclme")
 
-[node name="Ability 1" type="PanelContainer" parent="Ability UI/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 8
-theme_override_styles/panel = SubResource("StyleBoxFlat_i0s87")
-script = ExtResource("6_svq64")
-
-[node name="TextureRect" type="TextureRect" parent="Ability UI/HBoxContainer/Ability 1"]
+[node name="PanelContainer5" parent="UI/Ability UI" instance=ExtResource("6_p1n53")]
 layout_mode = 2
 texture = ExtResource("6_flss2")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="Ability UI/HBoxContainer/Ability 1"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
 text = "1"
 
-[node name="Cooldown" type="ProgressBar" parent="Ability UI/HBoxContainer/Ability 1"]
+[node name="PanelContainer6" parent="UI/Ability UI" instance=ExtResource("6_p1n53")]
 layout_mode = 2
-size_flags_vertical = 1
-theme_override_styles/fill = SubResource("StyleBoxFlat_nthc4")
-fill_mode = 1
-show_percentage = false
-
-[node name="Ability 2" type="PanelContainer" parent="Ability UI/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_i0s87")
-script = ExtResource("6_svq64")
 hotKey = "ability 2"
-cooldownTime = 8.0
-
-[node name="TextureRect" type="TextureRect" parent="Ability UI/HBoxContainer/Ability 2"]
-layout_mode = 2
 texture = ExtResource("7_o05ew")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="Ability UI/HBoxContainer/Ability 2"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
 text = "2"
 
-[node name="Cooldown" type="ProgressBar" parent="Ability UI/HBoxContainer/Ability 2"]
+[node name="PanelContainer7" parent="UI/Ability UI" instance=ExtResource("6_p1n53")]
 layout_mode = 2
-size_flags_vertical = 1
-theme_override_styles/fill = SubResource("StyleBoxFlat_nthc4")
-fill_mode = 1
-show_percentage = false
-
-[node name="Ability 3" type="PanelContainer" parent="Ability UI/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_i0s87")
-script = ExtResource("6_svq64")
 hotKey = "ability 3"
-cooldownTime = 12.0
-
-[node name="TextureRect" type="TextureRect" parent="Ability UI/HBoxContainer/Ability 3"]
-layout_mode = 2
 texture = ExtResource("8_r2y24")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="Ability UI/HBoxContainer/Ability 3"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
 text = "3"
 
-[node name="Cooldown" type="ProgressBar" parent="Ability UI/HBoxContainer/Ability 3"]
+[node name="PanelContainer8" parent="UI/Ability UI" instance=ExtResource("6_p1n53")]
 layout_mode = 2
-size_flags_vertical = 1
-theme_override_styles/fill = SubResource("StyleBoxFlat_nthc4")
-fill_mode = 1
-show_percentage = false
-
-[node name="Ability 4" type="PanelContainer" parent="Ability UI/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_i0s87")
-script = ExtResource("6_svq64")
 hotKey = "ability 4"
-cooldownTime = 16.0
-
-[node name="TextureRect" type="TextureRect" parent="Ability UI/HBoxContainer/Ability 4"]
-layout_mode = 2
 texture = ExtResource("9_c45im")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="Ability UI/HBoxContainer/Ability 4"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
 text = "4"
-
-[node name="Cooldown" type="ProgressBar" parent="Ability UI/HBoxContainer/Ability 4"]
-layout_mode = 2
-size_flags_vertical = 1
-theme_override_styles/fill = SubResource("StyleBoxFlat_nthc4")
-fill_mode = 1
-show_percentage = false
 
 [connection signal="cameraYawChanged" from="Target/Camera3D" to="." method="_on_camera_3d_camera_yaw_changed"]
 
