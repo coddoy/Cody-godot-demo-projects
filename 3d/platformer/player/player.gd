@@ -33,6 +33,7 @@ var coins := 0
 
 @onready var _camera := $Target/Camera3D as Camera3D
 @onready var _animation_tree := $AnimationTree as AnimationTree
+@onready var _abilityUI := $UI/AbilityUI as AbilityManager
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("reset_position") or global_position.y < -12:
@@ -157,7 +158,13 @@ func _physics_process(delta: float) -> void:
 
 	if shoot_attempt and not prev_shoot:
 		shoot_blend = SHOOT_TIME
-		var bullet := preload("res://player/bullet/bullet.tscn").instantiate() as Bullet
+		var abilityBullet := _abilityUI.getBullet()
+		var bullet :Bullet 
+		if abilityBullet:
+			bullet =  abilityBullet.instantiate()
+		else:
+			bullet = preload("res://player/bullet/bullet.tscn").instantiate()
+		
 		bullet.set_transform($Target/Bullet.get_global_transform().orthonormalized())
 		get_parent().add_child(bullet)
 		bullet.set_linear_velocity(

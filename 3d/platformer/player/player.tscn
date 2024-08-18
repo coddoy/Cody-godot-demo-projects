@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cc4idhykjp5f5"]
+[gd_scene load_steps=36 format=3 uid="uid://cc4idhykjp5f5"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1"]
 [ext_resource type="Script" path="res://player/RotateCamera.gd" id="2_v2jm5"]
@@ -10,7 +10,11 @@
 [ext_resource type="Texture2D" uid="uid://dsvmqiwba5gf8" path="res://player/bullet/Engineer_16.png" id="7_o05ew"]
 [ext_resource type="AudioStream" uid="uid://bplqk77bffdxr" path="res://player/sound_jump.wav" id="8"]
 [ext_resource type="Texture2D" uid="uid://dtbku6iyeji07" path="res://player/bullet/Engineer_17.png" id="8_r2y24"]
+[ext_resource type="PackedScene" uid="uid://cp1ayl3ux6o7p" path="res://player/bullet/variations/bullet1.tscn" id="9_0eg3s"]
 [ext_resource type="Texture2D" uid="uid://bkjw2fc4chk12" path="res://player/bullet/Engineer_19.png" id="9_c45im"]
+[ext_resource type="PackedScene" uid="uid://ct0tarfje5hyx" path="res://player/bullet/variations/bullet2.tscn" id="11_wo205"]
+[ext_resource type="PackedScene" uid="uid://dkao3puu6poc6" path="res://player/bullet/variations/bullet3.tscn" id="13_7lfs3"]
+[ext_resource type="PackedScene" uid="uid://dg35ij5swjla6" path="res://player/bullet/variations/bullet4.tscn" id="15_ls04o"]
 
 [sub_resource type="CapsuleShape3D" id="1"]
 radius = 0.4
@@ -226,7 +230,7 @@ skeleton = NodePath("../MeshInstance3D")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Ability UI" type="HBoxContainer" parent="UI"]
+[node name="AbilityUI" type="HBoxContainer" parent="UI"]
 offset_top = 584.0
 offset_right = 1152.0
 offset_bottom = 648.0
@@ -235,28 +239,32 @@ grow_vertical = 0
 alignment = 1
 script = ExtResource("6_kclme")
 
-[node name="PanelContainer5" parent="UI/Ability UI" instance=ExtResource("6_p1n53")]
+[node name="PanelContainer5" parent="UI/AbilityUI" instance=ExtResource("6_p1n53")]
 layout_mode = 2
 texture = ExtResource("6_flss2")
 text = "1"
+bullet = ExtResource("9_0eg3s")
 
-[node name="PanelContainer6" parent="UI/Ability UI" instance=ExtResource("6_p1n53")]
+[node name="PanelContainer6" parent="UI/AbilityUI" instance=ExtResource("6_p1n53")]
 layout_mode = 2
 hotKey = "ability 2"
 texture = ExtResource("7_o05ew")
 text = "2"
+bullet = ExtResource("11_wo205")
 
-[node name="PanelContainer7" parent="UI/Ability UI" instance=ExtResource("6_p1n53")]
+[node name="PanelContainer7" parent="UI/AbilityUI" instance=ExtResource("6_p1n53")]
 layout_mode = 2
 hotKey = "ability 3"
 texture = ExtResource("8_r2y24")
 text = "3"
+bullet = ExtResource("13_7lfs3")
 
-[node name="PanelContainer8" parent="UI/Ability UI" instance=ExtResource("6_p1n53")]
+[node name="PanelContainer8" parent="UI/AbilityUI" instance=ExtResource("6_p1n53")]
 layout_mode = 2
 hotKey = "ability 4"
 texture = ExtResource("9_c45im")
 text = "4"
+bullet = ExtResource("15_ls04o")
 
 [connection signal="cameraYawChanged" from="Target/Camera3D" to="." method="_on_camera_3d_camera_yaw_changed"]
 

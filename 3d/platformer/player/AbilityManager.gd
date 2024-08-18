@@ -1,4 +1,5 @@
 extends HBoxContainer
+class_name AbilityManager
 
 var abilities:Dictionary={}
 
@@ -6,9 +7,10 @@ var abilities:Dictionary={}
 func _ready():
 	for child in get_children():
 		if child is AbilityButtonUI:
-			child.initialize()
-			abilities[child.id.to_lower()] = child
-			child.abilityQueued.connect(onChildAbilityQueued)
+			var ability:AbilityButtonUI =child
+			ability.initialize()
+			abilities[ability.id.to_lower()] = ability
+			ability.abilityPlanned.connect(onChildAbilityQueued)
 	pass # Replace with function body.
 
 func onChildAbilityQueued(initiatorId:String):
@@ -19,6 +21,15 @@ func onChildAbilityQueued(initiatorId:String):
 			child.cancelQueue()
 	pass
 
+func getBullet() -> Resource:
+	for key in abilities:
+		var child: AbilityButtonUI = abilities[key]
+		if child.abilityIsPlanned:
+			child.useAbility()
+			var bullet = child.bullet
+			if bullet:
+				return bullet
+	return null
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
